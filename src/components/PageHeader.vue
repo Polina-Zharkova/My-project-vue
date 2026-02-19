@@ -10,29 +10,14 @@
             </div>
 
             <nav class="page-header__nav">
-                <button type="button" 
-                class="page-header__nav-item" 
-                :class="{'page-header__nav-item--active': activeTab === 'home' }"
-                @click="setTab('home')"
-                >
-                Главная
-                </button>
-                <button 
-                type="button" 
-                class="page-header__nav-item" 
-                :class="{'page-header__nav-item--active': activeTab === 'rules' }"
-                @click="setTab('rules')"
-                >
-                Правила
-                </button>
-                <button 
-                type="button" 
-                class="page-header__nav-item" 
-                :class="{'page-header__nav-item--active': activeTab === 'contacts' }"
-                @click="setTab('contacts')"
-                >
-                Контакты
-                </button>
+                <RouterLink 
+                  v-for="tab in tabs" 
+                  :key="tab.path" 
+                  class="page-header__nav-item"
+                  :to="{ path: tab.path, query: tab.query}"
+                  >
+                  {{ tab.title }}
+                </RouterLink>
             </nav>
         </div>
     </header>
@@ -45,18 +30,24 @@
     components: {
         SvgLogo,
     },
-    emits: ["setTab"],
-    props: {
-        activeTab: {
-            type: String,
-            default: "",
-        },
+    data() {
+        return {
+            tabs: [
+                {
+                    title: "Главная",
+                    path: "/",
+                },
+                {
+                    title: "Правила",
+                    path: "/rules",
+                },
+                {
+                    title: "Контакты",
+                    path: "/contacts",
+                },
+            ],
+        };
     },
-    methods: {
-        setTab(value) {
-            this.$emit("setTab", value)
-        }
-    }
    };
 </script>
 
